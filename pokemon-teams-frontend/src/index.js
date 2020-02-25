@@ -2,7 +2,8 @@ const BASE_URL = "http://localhost:3000"
 const TRAINERS_URL = `${BASE_URL}/trainers`
 const POKEMONS_URL = `${BASE_URL}/pokemons`
 
-const main = document.getElementById('trainer-card-area')
+const main = document.getElementsByTagName('main')[0]
+
 document.addEventListener('DOMContentLoaded', () => {
     fetch(TRAINERS_URL)
         .then(resp => resp.json())
@@ -10,19 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function trainerCards(trainer){
         let trainerCard = document.createElement('div')
+        trainerCard.className = "card"
+        trainerCard.dataset.id = trainer.id
         trainerCard.innerHTML =
-            `<div class="card" data-id="${trainer.id}"><p>${trainer.name}</p>
-            <button data-trainer-id="${trainer.id}">Add Pokemon</button>
-            <ul id='${trainer.id}-pokemon'></ul></div>`
+            `<p>${trainer.name}</p>
+            <button data-trainer-id="${trainer.id}">Add Pokemon</button>`
+        const ul = document.createElement('ul')
+        trainerCard.append(ul)
         main.append(trainerCard)
         trainer.pokemons.forEach(pokemon => listPokemon(pokemon))
 
     function listPokemon(pokemon){
-        const cardPokemon = document.getElementById(`${trainer.id}-pokemon`)
         let pokemonEntry = document.createElement('li')
         pokemonEntry.innerHTML =
             `${pokemon.nickname} (${pokemon.species}) <button class="release" data-id="${pokemon.id}">Release</button>`
-        cardPokemon.append(pokemonEntry)
+        ul.append(pokemonEntry)
     }
 
     trainerCard.addEventListener('click', (e) => {
