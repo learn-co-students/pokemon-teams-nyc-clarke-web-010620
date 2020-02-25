@@ -45,13 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(newPokemon => listPokemon(newPokemon))
             }
         } else if (e.target.innerText === 'Release') {
-            fetch(`${POKEMONS_URL}/${e.target.dataset.id}`,{
-                method: "DELETE",
-                headers: {
-                    'content-type': 'application/json',
-                    accept: 'application/json'
-                }
-            })
+            fetch(`${POKEMONS_URL}/${e.target.dataset.id}`,{method: "DELETE"})
             .then(e.target.parentNode.remove())
         }
     })
